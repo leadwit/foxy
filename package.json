@@ -1,0 +1,23 @@
+{
+  "name": "foxy",
+  "version": "0.0.1",
+  "description": "FIS-based build —— foxy",
+  "author": "Owen Lin <lz@lz8.net>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "fis",
+    "foxy",
+    "coffee-script"
+  ],
+  "bin" : {
+    "foxy" : "bin/foxy"
+  },
+  "license": "MIT",
+  "dependencies" : {
+    "fis": "1.7.9",
+    "coffee-script": "1.7.1"
+  }
+}
