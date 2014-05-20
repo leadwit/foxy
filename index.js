@@ -1,53 +1,87 @@
 var fis = module.exports = require('fis');
-var coffee = require('coffee-script');
+var art = require('./plugins/prepackager/parser-art-template');
+var coffee = require('./plugins/prepackager/parser-coffee');
 
 fis.require.prefixes = [ 'foxy', 'fis' ];
 fis.cli.name = 'foxy';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
 fis.config.set('project.fileType.text', 'map');
+fis.config.set('modules.postpackager', [art]);
+fis.config.set('modules.prepackager', [coffee]);
 
-fis.config.set('modules.postpackager', function(ret, conf, settings, opt){
-    var pack = fis.config.get('coffee.pack', {});
-    var options = fis.config.get('coffee.settings', {});
-    var content = '';
-    if(pack.files && pack.files.length){
-        pack.files.forEach(function(path){
-            var file = ret.src['/' + path.replace(/^\//, '')];
-            if(file){
-                content += file.getContent() + '\n';
-                if(opt.pack) {
-                    file.release = false;
-                    delete ret.src[file.subpath];
-                }
-            } else {
-                fis.log.warning('missing file [' + path + ']');
-            }
-        });
-    }
-    
-    //临时文件
-    var a = fis.project.getTempPath('tmodjs/a.js');
-    //console.log(a);
-    
-    //create pack file
-    var file = fis.file(fis.project.getProjectPath(pack.release || '/pkg/main.js'));
-    options.filename = file.subpath;
-    content = coffee.compile(content, options);
-    if(options.sourceMap) {
-        var sourceMap = content.sourceMap;
-        if(!opt.optimize && !opt.pack){
-            var sourceMapFile = fis.file(file.realpathNoExt + '.map');
-            sourceMapFile.setContent(sourceMap);
-            ret.pkg[sourceMapFile.subpath] = sourceMapFile;
-            content.js += '//@ sourceMappingURL=' + sourceMapFile.getUrl(opt.hash, opt.domain);
+
+//更多配置
+fis.config.merge({
+    roadmap : {
+        ext : {
+            //less后缀的文件将输出为css后缀
+            //并且在parser之后的其他处理流程中被当做css文件处理
+            less : 'css',
+            //md后缀的文件将输出为html文件
+            //并且在parser之后的其他处理流程中被当做html文件处理
+            md : 'html'
         }
-        content = content.js;
+        ,
+        path : [
+            //发布一些前端使用的文件
+            {
+                reg : 'css/**',
+                release : '/dist/FE/$&'
+            },
+            {
+                reg : 'js/page.js',
+                release : '/dist/FE/$&'
+            },
+
+            //发布一些后端使用的文件
+            {
+                reg : /js\/(ui|ppvideo_detect)\.js/,
+                release : '/dist/BE/$1'
+            }
+            ,
+            {
+                reg : 'maxcms.js',
+                release : '/dist/BE/$&'
+            }
+            ,
+            {
+                reg : '/pkg/template.min.js',
+                release : '/dist/BE/template.min.js'
+            }
+        ]
     }
-    file.setContent(content);
-    fis.compile(file);
-
-//    ret.pkg[file.subpath] = file;
-
-    ret.map = fis.config.get('browser.map');
+    ,
+    project : {
+        include: /^(\/coffee|\/css|\/js|\/spider|\/art)\//
+//        ,exclude: /\.map$/
+    },
+    modules : {
+        parser:{
+            //coffee后缀的文件使用fis-parser-coffee-script插件编译
+//            coffee : 'coffee-script',
+            //less后缀的文件使用fis-parser-less插件编译
+            //处理器支持数组，或者逗号分隔的字符串配置
+            less : ['less']
+//            ,
+//            //使用artTemplate编译tpl模板文件
+//            tpl : 'art-template'
+        }
+        ,
+        optimizer : {
+            //js后缀文件会经过fis-optimizer-uglify-js插件的压缩优化
+            js : 'uglify-js'
+        }
+    }
+    ,
+    settings : {
+        optimizer: {
+            'uglify-js': {
+                mangle: {
+                    //不要压缩require关键字，否则seajs会识别不了require
+//                    except: [ 'require' ]
+                }
+            }
+        }
+    }
 });

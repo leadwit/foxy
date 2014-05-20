@@ -1,6 +1,6 @@
 {
   "name": "foxy",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "FIS-based build —— foxy",
   "author": "Owen Lin <lz@lz8.net>",
   "main": "index.js",
@@ -12,12 +12,14 @@
     "foxy",
     "coffee-script"
   ],
-  "bin" : {
-    "foxy" : "bin/foxy"
+  "bin": {
+    "foxy": "bin/foxy"
   },
   "license": "MIT",
-  "dependencies" : {
+  "dependencies": {
     "fis": "1.7.9",
-    "coffee-script": "1.7.1"
+    "coffee-script": "1.7.1",
+    "tmodjs": "1.0.1-rc1",
+    "fis-parser-less": "~0.1.0"
   }
 }
