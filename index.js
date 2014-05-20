@@ -1,14 +1,17 @@
 var fis = module.exports = require('fis');
 var art = require('./plugins/prepackager/parser-art-template');
 var coffee = require('./plugins/prepackager/parser-coffee');
+var maxcms = require('./plugins/postpackager/concat-maxcms');
 
 fis.require.prefixes = [ 'foxy', 'fis' ];
 fis.cli.name = 'foxy';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
 fis.config.set('project.fileType.text', 'map');
-fis.config.set('modules.postpackager', [art]);
 fis.config.set('modules.prepackager', [coffee]);
+fis.config.set('modules.postpackager', [art , maxcms]);
+
+fis.config.set('livereload.port', '35729');     //修改FIS的livereload默认端口
 
 
 //更多配置
@@ -58,8 +61,6 @@ fis.config.merge({
     },
     modules : {
         parser:{
-            //coffee后缀的文件使用fis-parser-coffee-script插件编译
-//            coffee : 'coffee-script',
             //less后缀的文件使用fis-parser-less插件编译
             //处理器支持数组，或者逗号分隔的字符串配置
             less : ['less']

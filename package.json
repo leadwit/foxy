@@ -18,8 +18,9 @@
   "license": "MIT",
   "dependencies": {
     "fis": "1.7.9",
+    "fis-parser-less": "~0.1.0",
     "coffee-script": "1.7.1",
     "tmodjs": "1.0.1-rc1",
-    "fis-parser-less": "~0.1.0"
+    "colors": "~0.6.2"
   }
 }

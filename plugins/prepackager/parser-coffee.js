@@ -16,7 +16,7 @@ module.exports = function(ret, conf, settings, opt){
 
             var file = ret.src['/' + path.replace(/^\//, '')];
             if(file){
-                console.log(file.basename);
+                console.log("• " + file.subpath);
 
                 content += file.getContent() + '\n';
                 if(opt.pack) {      //打包时不发布源文件
@@ -51,8 +51,6 @@ module.exports = function(ret, conf, settings, opt){
         file.setContent(content);
     }
     ret.pkg[file.subpath] = file;
-
-//    ret.res[file.subpath] = file;
 
     //修改map.json文件
 //    ret.map = fis.config.get('browser.map');
