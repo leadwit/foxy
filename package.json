@@ -1,8 +1,13 @@
 {
   "name": "fis-foxy",
-  "version": "0.0.1",
-  "description": "FIS-based build —— fis-foxy",
+  "version": "0.0.7",
+  "description": "FIS-based build —— foxy",
   "author": "Owen Lin <lz@lz8.net>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/leadwit/foxy.git"
+    },
+    "homepage": "https://github.com/leadwit/foxy.git",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +18,7 @@
     "coffee-script"
   ],
   "bin": {
-    "foxy": "bin/fis-foxy"
+    "foxy": "bin/foxy"
   },
   "license": "MIT",
   "dependencies": {
