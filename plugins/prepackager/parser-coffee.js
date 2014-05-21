@@ -10,6 +10,8 @@ module.exports = function(ret, conf, settings, opt){
     var pack = fis.config.get('coffee.pack', {});
     var options = fis.config.get('coffee.settings', {});
     var content = '';
+    var has_arr = [];
+
     if(pack.files && pack.files.length){
         pack.files.forEach(function(path){
 
@@ -17,6 +19,7 @@ module.exports = function(ret, conf, settings, opt){
             var file = ret.src['/' + path.replace(/^\//, '')];
             if(file){
                 console.log("• " + file.subpath);
+                has_arr.push(file.subpath);
 
                 content += file.getContent() + '\n';
                 if(opt.pack) {      //打包时不发布源文件
@@ -54,4 +57,9 @@ module.exports = function(ret, conf, settings, opt){
 
     //修改map.json文件
 //    ret.map = fis.config.get('browser.map');
+    ret.map.pkg[pack.release.substring(pack.release.lastIndexOf('/')+1) ] = {
+        'uri':pack.release,
+        'type':'js',
+        'has':has_arr
+    };
 };

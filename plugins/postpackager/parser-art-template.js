@@ -6,7 +6,7 @@ module.exports = function(ret, conf, settings, opt){
 
     var options = fis.config.get('art-template', {});
     var target = '/'+ options.target.replace(/^\//, '').replace(/\/$/, '') +'/';
-
+    var has_arr = [];
     if(opt.optimize && !options.minify) {     //优化时，生成minify文件
         options.minify = opt.optimize;
     }
@@ -21,6 +21,10 @@ module.exports = function(ret, conf, settings, opt){
     //编译完后，删除模板文件
     fis.util.map(ret.src,function(subpath, file, index){
         if( subpath.indexOf(target) == 0 ){
+            if(!/\.json$/.test(subpath)){
+                has_arr.push(subpath);
+            }
+
             file.release = false;
             delete ret.src[file.subpath];
         }
@@ -30,4 +34,11 @@ module.exports = function(ret, conf, settings, opt){
     var _file = fis.file(fis.project.getProjectPath(options.output + options.runtime));
     _file.setContent(_tmp_file.getContent());
     ret.pkg[_file.subpath] = _file;
+
+    ret.map.pkg[options.runtime] = {
+        'uri':_file.subpath,
+        'type':'js',
+        'has':has_arr,
+        'deps': ['art-template']
+    };
 };
