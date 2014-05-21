@@ -5,8 +5,8 @@ var art = require('./plugins/postpackager/parser-art-template'),
     browsermap = require('./plugins/postpackager/browser-map'),
     chromefile = require('./plugins/postpackager/create-chrometools');
 
-fis.require.prefixes = [ 'foxy', 'fis' ];
-fis.cli.name = 'foxy';
+fis.require.prefixes = [ 'fis-foxy', 'fis' ];
+fis.cli.name = 'fis-foxy';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
 fis.config.set('project.fileType.text', 'map');
