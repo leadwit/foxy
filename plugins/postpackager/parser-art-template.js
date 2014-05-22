@@ -19,10 +19,10 @@ module.exports = function(ret, conf, settings, opt){
     options.output = final_output;
 
     //编译完后，删除模板文件
-    fis.util.map(ret.src,function(subpath, file, index){
+    fis.util.map(ret.src,function(subpath, file){
         if( subpath.indexOf(target) == 0 ){
             if(!/\.json$/.test(subpath)){
-                has_arr.push(subpath);
+                has_arr.push( subpath.replace(/^\//,'') );
             }
 
             file.release = false;
@@ -35,8 +35,8 @@ module.exports = function(ret, conf, settings, opt){
     _file.setContent(_tmp_file.getContent());
     ret.pkg[_file.subpath] = _file;
 
-    ret.map.pkg[options.runtime] = {
-        'uri':_file.subpath,
+    ret.map.res[ _file.subpath.replace(/^\//,'') ] = {
+        'uri': opt.hash ? _file.getUrl(opt.hash, opt.domain) : _file.subpath,
         'type':'js',
         'has':has_arr,
         'deps': ['art-template']

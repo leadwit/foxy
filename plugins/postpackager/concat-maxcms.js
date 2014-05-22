@@ -1,5 +1,5 @@
 var fis = require('fis');
-//var colors = require('./colors');
+var colors = require('colors');
 
 /**
  * 专门用于兼容maxcms的打包处理
@@ -33,7 +33,8 @@ module.exports = function(ret, conf, settings, opt){
                     content += file.getContent();
                 }
             }
-            has_arr.push(_filepath);
+
+            has_arr.push( _filepath.replace(/^\//,'') );
         }
 
         if(content){
@@ -41,11 +42,15 @@ module.exports = function(ret, conf, settings, opt){
             file.setContent(content);
             fis.compile(file);
             ret.pkg[file.subpath] = file;
-//            console.log(colors.green("• ") + file.subpath);
-            console.log("• " + file.subpath);
+            console.log("• ".green + file.subpath);
 
-            ret.map.pkg[item] = {
-                'uri': pack_opt[item].release,
+//            ret.map.pkg[item] = {
+//                'uri': pack_opt[item].release,
+//                'type':'js',
+//                'has':has_arr
+//            };
+            ret.map.res[ pack_opt[item].release.replace(/^\//,'') ] = {
+                'uri': opt.hash ? file.getUrl(opt.hash, opt.domain) : pack_opt[item].release,
                 'type':'js',
                 'has':has_arr
             };

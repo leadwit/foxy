@@ -28,6 +28,10 @@ fis.config.merge({
         }
         ,
         path : [
+            {   //chrome插件支持
+                reg : 'chrome.js',
+                useHash:false
+            },
             //发布一些前端使用的文件
             {
                 reg : 'css/**',
@@ -37,7 +41,6 @@ fis.config.merge({
                 reg : 'js/page.js',
                 release : '/dist/FE/$&'
             },
-
             //发布一些后端使用的文件
             {
                 reg : /js\/(ui|ppvideo_detect)\.js/,
@@ -48,16 +51,11 @@ fis.config.merge({
                 reg : 'maxcms.js',
                 release : '/dist/BE/$&'
             }
-//            ,
-//            {
-//                reg : '/pkg/template.min.js',
-//                release : '/dist/BE/template.min.js'
-//            }
         ]
     }
     ,
     project : {
-        include: /^(\/coffee|\/css|\/js|\/spider|\/art)\//
+        include: /^(\/coffee|\/css|\/js|\/spider|\/tpl)\//
         ,exclude: /(\.map$|^\/css\/images\/)/
     },
     modules : {

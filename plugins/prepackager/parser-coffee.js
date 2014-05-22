@@ -3,6 +3,7 @@
  */
 var fis = require('fis');
 var coffee = require('coffee-script');
+var colors = require('colors');
 
 module.exports = function(ret, conf, settings, opt){
     console.log('parser-coffee:');
@@ -18,8 +19,10 @@ module.exports = function(ret, conf, settings, opt){
 
             var file = ret.src['/' + path.replace(/^\//, '')];
             if(file){
-                console.log("• " + file.subpath);
-                has_arr.push(file.subpath);
+                console.log("• ".green + file.subpath);
+
+//                has_arr.push( opt.hash ? file.getUrl(opt.hash, opt.domain) : file.subpath);
+                has_arr.push( file.subpath.replace(/^\//,'') );
 
                 content += file.getContent() + '\n';
                 if(opt.pack) {      //打包时不发布源文件
@@ -55,11 +58,14 @@ module.exports = function(ret, conf, settings, opt){
     }
     ret.pkg[file.subpath] = file;
 
-    //修改map.json文件
-//    ret.map = fis.config.get('browser.map');
-    ret.map.pkg[pack.release.substring(pack.release.lastIndexOf('/')+1) ] = {
-        'uri':pack.release,
+    ret.map.res[ pack.release.replace(/^\//,'') ] = {
+        'uri': opt.hash ? file.getUrl(opt.hash, opt.domain) : pack.release,
         'type':'js',
         'has':has_arr
     };
+//    ret.map.pkg[pack.release.substring(pack.release.lastIndexOf('/')+1) ] = {
+//        'uri': opt.hash ? file.getUrl(opt.hash, opt.domain) : pack.release,
+//        'type':'js',
+//        'has':has_arr
+//    };
 };
