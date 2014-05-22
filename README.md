@@ -4,7 +4,7 @@ FIS-based build —— foxy
 
 ## foxy 命令
 安装
-npm install -g foxy
+npm install -g fis-foxy
 
 三条命令，满足你的所有开发需求：
 
