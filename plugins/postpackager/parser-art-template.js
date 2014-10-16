@@ -32,7 +32,13 @@ module.exports = function(ret, conf, settings, opt){
 
     var _tmp_file = fis.file(temp_art_output +'/'+ options.runtime);
     var _file = fis.file(fis.project.getProjectPath(options.output + options.runtime));
-    _file.setContent(_tmp_file.getContent());
+    var content = _tmp_file.getContent();
+    if(options.minify){
+        content = content.replace("}()",",window.template = b}()");
+    }else{
+        content = content.replace("}();","window.template = template;}();");
+    }
+    _file.setContent(content);
     ret.pkg[_file.subpath] = _file;
 
     ret.map.res[ _file.subpath.replace(/^\//,'') ] = {

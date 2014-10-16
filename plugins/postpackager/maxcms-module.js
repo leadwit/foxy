@@ -27,7 +27,7 @@ module.exports = function(ret, conf, settings, opt){
                 for(var _j = 0;_j < jsFiles.length;_j++){
                 	var file = fis.file(jsFiles[_j]);
                 	console.log(jsFiles[_j]);
-                	if(file){
+                	if(file && jsFiles[_j].indexOf('app.js') < 0){
                 		content += file.getContent();
                 	}
                 }
