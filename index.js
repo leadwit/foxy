@@ -2,6 +2,7 @@ var fis = module.exports = require('fis');
 var art = require('./plugins/postpackager/parser-art-template'),
     coffee = require('./plugins/prepackager/parser-coffee'),
     concat = require('./plugins/postpackager/concat-maxcms'),
+    json2Str = require('./plugins/postpackager/jsonToStr'),
     maxcms_module = require('./plugins/postpackager/maxcms-module'),
     browsermap = require('./plugins/postpackager/browser-map'),
     chromefile = require('./plugins/postpackager/create-chrometools');
@@ -12,7 +13,7 @@ fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
 
 fis.config.set('project.fileType.text', 'map');
 fis.config.set('modules.prepackager', [coffee]);
-fis.config.set('modules.postpackager', [art , maxcms_module, browsermap, chromefile]);
+fis.config.set('modules.postpackager', [art, json2Str , maxcms_module, browsermap, chromefile]);
 fis.config.set('livereload.port', '35729');     //修改FIS的livereload默认端口
 
 
