@@ -16,3 +16,9 @@ foxy server <command> [options]
 
 ## 更多命令
 见：https://github.com/fex-team/fis/wiki/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B#fis-install-name
+
+#ChangeLog
+
+##0.0.14
+
+* 增加模块化JS打包操作。
