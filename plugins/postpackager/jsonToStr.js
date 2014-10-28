@@ -9,7 +9,8 @@ module.exports = function(ret, conf, settings, opt){
     var options = fis.config.get('jsonToStr', {});
 
      fis.util.map(ret.src,function(subpath, file){
-         if(/load\.js$/.test(subpath)){ //PAGE.JS处理
+         if(/load\.js$/.test(subpath) 
+            && subpath.indexOf('server') == -1){ //PAGE.JS处理
              //console.log(fis.project.getProjectPath())
              var jsHash = fis.file.wrap(fis.project.getProjectPath()+"/js/page.js").getHash();
              var cssHash= fis.file.wrap(fis.project.getProjectPath()+"/css/style.less").getHash();
@@ -34,7 +35,8 @@ module.exports = function(ret, conf, settings, opt){
            console.log("成功替换子资源版本")
          }
 
-            if(/page\.js$/.test(subpath)){ //PAGE.JS处理
+            if(/page\.js$/.test(subpath)
+                && subpath.indexOf('server') == -1){ //PAGE.JS处理
                 
                 
                 //将JS文件进行字符串处理

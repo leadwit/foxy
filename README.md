@@ -19,6 +19,10 @@ foxy server <command> [options]
 
 #ChangeLog
 
+##0.0.17
+* 修复转移page.js的错误
+
 ##0.0.14
 
 * 增加模块化JS打包操作。
+
